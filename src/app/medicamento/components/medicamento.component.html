@@ -1,0 +1,135 @@
+<div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h4>
+                    <strong>
+                        <em>Medicamentos</em>
+                    </strong>
+                </h4>
+            </div>
+            <div class="col text-right">
+                <a class="" (click)="showModal()">
+                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <hr>
+        <div class="card" *ngIf="medicamentoService.medicamentos$ | async; let medicamentos;">
+            <div class="card-block">
+                <div class="card-header">
+                    <strong> Medicamentos ({{ medicamentos.length }})</strong>
+                    <h5 *ngIf="medicamentos.length === 0">No existen medicamentos almacenados en DB. Agregue nuevo Medicamento.</h5>
+                </div>
+                <div *ngIf="medicamentos.length > 0">
+                    <table id="example" class="table table-bordered table-striped">
+                        <thead class="thead">
+                            <tr>
+                                <th>#</th>
+                                <th>Descripción</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tfoot class="thead">
+                            <tr>
+                                <th>#</th>
+                                <th>Descripción</th>
+                                <th>Actions</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <tr *ngFor="let e of medicamentos| paginate: { itemsPerPage: 8, currentPage: p }; let i = index">
+                                <td>{{ i+1 }}</td>
+                                <td>{{ e.nombre | uppercase}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning" (click)="enableEditing($event, e)">
+                                        <i class="fa fa-pencil"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger" (click)="deleteMedicamento(e)">
+                                        <i class="fa fa-trash"></i> Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+    
+    <div #myModal class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <form class="form" [formGroup]="addMedicamentoForm" (ngSubmit)="addMedicamento()">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Medicamentos</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid" style="font-size: 13px">
+                            <form class="form" [formGroup]="addMedicamentoForm" (ngSubmit)="addMedicamento()">
+                                <div class="container">
+                                    <p class="lead">
+                                        <em>
+                                            <strong>Datos del Medicamento:</strong>
+                                        </em>
+                                    </p>
+                                    <hr>
+                                    <div class="row justify-content-start">
+                                        <div class=" col-lg-4">
+                                            <label for="nombre">Presentación:</label>
+                                            <input type="text" class="form-control text-uppercase" id="nombre" formControlName="presentacion">
+                                        </div>
+                                        <div class=" col-lg-4">
+                                            <label for="nombre">Unidad de Medida:</label>
+                                            <input type="text" class="form-control text-uppercase" id="nombre" formControlName="presentacion">
+                                        </div>
+                                        <div class=" col-lg-4">
+                                            <label for="nombre">Venta Registrada:</label>
+                                            <input type="text" class="form-control text-uppercase" id="nombre" formControlName="presentacion">
+                                        </div>
+                                    </div>
+                                    <p></p>
+                                     <div class="row justify-content-start">
+                                        <div class=" col-lg-8">
+                                            <label for="nombre">Nombre:</label>
+                                            <input type="text" class="form-control" id="nombre" name="nombres" placeholder="Ingrese nombre del Medicamento">
+                                        </div>
+                                    </div>
+                                     <p></p>
+                                     <div class="row justify-content-start">
+                                        <div class=" col-lg-6">
+                                            <label for="nombre">Dolencia:</label>
+                                            <textarea rows="3"  type="text" class="form-control" id="nombre" name="nombres" placeholder="Escriba la enfermedad que trata el medicamento"></textarea>
+                                        </div>
+                                        <div class=" col-lg-6">
+                                            <label for="nombre">Instrucciones:</label>
+                                            <textarea rows="3" type="text" class="form-control" id="nombre" name="nombres" placeholder="Instrucciones"></textarea>
+                                        </div>
+                                    </div>
+                                    <p></p>
+                                    <div class="row justify-content-start">
+                                            <div class=" col-lg-7">
+                                              <label for="nombres">Foto:</label>
+                                              <input type="file" (change)="detectFiles($event)" class="form-control text-uppercase" id="logo" name="logo">
+                                              <div *ngIf="currentUpload">
+                                                <div class="progress">
+                                                  <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+                                                </div>
+                                                Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+                                              </div>
+                                            </div>
+                                          </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit" [disabled]="!addMedicamentoForm.valid">Save </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

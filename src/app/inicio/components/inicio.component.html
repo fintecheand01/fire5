@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-9">
+      <h4><strong><em>Configuración General</em></strong>
+      </h4>
+    </div>
+  </div>
+  <hr>
+  <div class="row justify-content-start">
+    <div class=" col-lg-7">
+      <label for="nombres">Nombre de la Empresa:</label>
+      <input type="text" class="form-control text-uppercase" id="nombres" name="nombres" placeholder="Farmacia">
+    </div>
+    <div class=" col-lg-5">
+      <label for="nombres">Impuesto:</label>
+      <input type="text" class="form-control text-uppercase" id="nombres" name="nombres" placeholder="IVA">
+    </div>
+  </div>
+  <p></p>
+  <div class="row justify-content-start">
+    <div class=" col-lg-7">
+      <label for="nombres">Porcentaje de Impuesto:</label>
+      <input type="text" class="form-control text-uppercase" id="nombres" name="nombres" placeholder="%">
+    </div>
+    <div class=" col-lg-5">
+      <label for="nombres">Símbolo de la moneda:</label>
+      <input type="text" class="form-control text-uppercase" id="nombres" name="nombres" placeholder="S./">
+    </div>
+  </div>
+  <p>   
+  </p>
+  <div class="row justify-content-start">
+    <div class=" col-lg-7">
+      <label for="nombres">Logo:</label>
+      <input type="file" (change)="detectFiles($event)" class="form-control text-uppercase" id="logo" name="logo">
+      <div *ngIf="currentUpload">
+        <div class="progress">
+          <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+        </div>
+        Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-info"  [disabled]="!selectedFiles" (click)="uploadSingle()">Guardar</button>
+      </div>
+    </div>
+  </div>
+  <p></p>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success">Registrar</button>
+    <button type="button" class="btn btn-primary">Cancelar</button>
+  </div>
+</div>
+
+<!-- <div *ngIf="currentUpload">
+  <div class="progress">
+    <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+  </div>
+  Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+</div> -->
+    <!-- <label>
+       <input type="file" (change)="detectFiles($event)">
+    </label>
+    <button
+            [disabled]="!selectedFiles"
+            (click)="uploadSingle()">
+      Upload Single
+    </button>
+    <label>
+       <input type="file" (change)="detectFiles($event)" multiple>
+    </label>
+      <button
+              [disabled]="!selectedFiles"
+              (click)="uploadMulti()">
+        Upload Multiple
+      </button>
+
+      <hr>
+
+      <div >
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombres</th>
+                <th>Upload</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+        <tbody>
+            <tr *ngFor="let upload of uploads | async">
+                <td>{{ upload.id }}</td>
+                <td>{{ upload.name }}</td>
+                <td> <img src={{upload.url}} height="42" width="42" /></td>
+                <td> <button type="button" class="btn btn-danger" (click)= 'deleteUpload(upload)'>Eliminar</button></td>
+            </tr>
+        </tbody>
+        </table>
+      </div> -->

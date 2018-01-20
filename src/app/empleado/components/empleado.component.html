@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <h4>
+                            <strong>
+                                <em>Empleados</em>
+                            </strong>
+                        </h4>
+                    </div>
+                    <div class="col text-right" >
+                        <a class="" (click)="showModal()">
+                            <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                <div class="card" *ngIf="empleadoService.empleados$ | async; let empleados;">
+                    <div class="card-block">
+                        <div class="card-header">
+                            <strong> Empleados ({{ empleados.length }})</strong>
+                            <h5 *ngIf="empleados.length === 0">No existen empleados almacenados en DB. Agregue nuevo Empleado.</h5>
+                        </div>
+                <div *ngIf="empleados.length > 0">
+                <table id="example"  class="table table-bordered table-striped">
+                  <thead class="thead">
+                      <tr>
+                          <th>#</th>
+                          <th>Descripción</th>
+                          <th>Actions</th>
+                      </tr>
+                  </thead>
+                  <tfoot class="thead">
+                          <tr>
+                              <th>#</th>
+                              <th>Descripción</th>
+                              <th>Actions</th>
+                          </tr>
+                  </tfoot>
+                  <tbody>
+                      <tr *ngFor="let e of empleados| paginate: { itemsPerPage: 8, currentPage: p }; let i = index">
+                          <td>{{ i+1 }}</td>
+                          <td>{{ e.nombre | uppercase}}</td>
+                          <td> 
+                              <button class="btn btn-sm btn-warning" (click)="enableEditing($event, e)"><i class="fa fa-pencil"></i> Edit</button>
+                              <button  class="btn btn-sm btn-danger" (click)="deleteEmpleado(e)"><i class="fa fa-trash"></i> Delete</button>
+                          </td>
+                      </tr>
+                  </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+                        
+                    </div>
+                </div>
+              </div>
+              
+              <div #myModal class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <form class="form" [formGroup]="addEmpleadoForm" (ngSubmit)="addEmpleado()">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Empleados</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                    <div class="container-fluid" style="font-size: 13px">
+                                            <form class="form" [formGroup]="addEmpleadoForm" (ngSubmit)="addEmpleado()">
+                                                <div class="container">
+                                                    <p class="lead">
+                                                        <em>
+                                                            <strong>Datos del Empleado:</strong>
+                                                        </em>
+                                                    </p>
+                                                    <hr>
+                                                    <div class="row justify-content-start">
+                                                        <div class=" col-lg-3">
+                                                            <label for="nombre">Nombres:</label>
+                                                            <input type="text" class="form-control text-uppercase" id="nombre" name="nombres"
+                                                                formControlName="nombres">
+                                                        </div>
+                                                        <div class=" col-lg-4">
+                                                            <label for="paterno">Apellidos:</label>
+                                                            <input type="text" class="form-control text-uppercase" id="apellidos" name="apellidos"
+                                                                formControlName="apellidos">
+                                                        </div>
+                                    
+                                                        <div class=" col-lg-3">
+                                                            <label for="dni">DNI:</label>
+                                                            <input type="text" class="form-control" id="dni" name="dni" formControlName="dni">
+                                                        </div>
+                                                        <div class=" col-lg-2">
+                                                            <label for="sexo">Sexo:</label>
+                                                            <select class="form-control text-uppercase" id="sexo" name="sexo" formControlName="sexo">
+                                                                <option value=""></option>
+                                                                <option *ngFor="let s of sex">{{s}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <p></p>
+                                                    <p class="lead">
+                                                        <em>
+                                                            <strong>Datos de Nacimiento:</strong>
+                                                        </em>
+                                                    </p>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-lg-4">
+                                                            <label for="fnac">Fecha de Nacimiento:</label>
+                                                            <input type="date" class="form-control" id="fnac" name="fnac" formControlName="fnac">
+                                                        </div>
+                                                    </div>
+                                                    <p></p>
+                                    
+                                    
+                                                    <div class="row justify-content-start">
+                                                        <div class="col-lg-6">
+                                                            <p class="lead">
+                                                                <em>
+                                                                    <strong>Datos de Domicilio:</strong>
+                                                                </em>
+                                                            </p>
+                                                            <hr>
+                                                            <label for="direccion">Dirección:</label>
+                                                            <input type="text" class="form-control" id="direccion" name="direccion" formControlName="direccion">
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <p class="lead">
+                                                                <em>
+                                                                    <strong>Cargo:</strong>
+                                                                </em>
+                                                            </p>
+                                                            <hr>
+                                                            <label for="cargo">Cargo:</label>
+                                                            <select class="form-control text-uppercase" id="cargo" name="cargo" formControlName="cargo">
+                                                                <option value=""></option>
+                                                                <option *ngFor="let c of cargos | async">{{c.descripcion}}</option>
+                                                            </select>
+                                                        </div>
+                                                        <hr>
+                                                    </div>
+                                                    <p></p>
+                                                    <p class="lead">
+                                                        <em>
+                                                            <strong>Contacto:</strong>
+                                                        </em>
+                                                    </p>
+                                                    <hr>
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <label for="telefono">Telefono:</label>
+                                                            <input class="form-control" id="telefono" name="telefono" formControlName="telefono">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="celular">Celular:</label>
+                                                            <input class="form-control" id="celular" name="celular" formControlName="celular">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label for="correo">Correo:</label>
+                                                            <input class="form-control" id="correo" name="correo" formControlName="correo">
+                                                        </div>
+                                                    </div>
+                                                    <p> <hr>
+                                                        <!-- <div class="row justify-content-end">
+                                                            <div class="col col-md-2" style="text-align: right">
+                                                                <button class="btn btn-primary" type="submit" [disabled]="!addEmpleadoForm.valid">Guardar</button>
+                                                            </div>
+                                                            <div class="col col-md-2">
+                                                                <button class="btn btn-info">Cancelar</button>
+                                                            </div>
+                                                        </div> -->
+                                    
+                                                </div>
+                                            </form>
+                                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button class="btn btn-primary" type="submit" [disabled]="!addEmpleadoForm.valid">Save </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+              </div>
+
+    
+</body>
+
+</html>
