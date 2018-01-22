@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ViewChild, ElementRef } from '@angular/core';
 import { EmpleadoService } from '../empleado.service';
+import { CargoService } from '../../cargo/cargo.service';
 import 'rxjs/add/operator/map';
 import {
   FormGroup,
@@ -34,11 +35,15 @@ export class EmpleadoComponent implements OnInit {
   public correo = new FormControl('', [Validators.required]);
 
   sex: string[];
+  empleadotoEdit: any;
 
   constructor(
     public formBuilder: FormBuilder,
-    public empleadoService: EmpleadoService
-  ) {  }
+    public empleadoService: EmpleadoService,
+    public cargoService: CargoService
+  ) {
+    this.empleadotoEdit = {};
+  }
 
   ngOnInit() {
     this.sex = ['Masculino', 'Femenino'];
@@ -58,6 +63,26 @@ export class EmpleadoComponent implements OnInit {
 
   showModal() {
     jQuery(this.myModal.nativeElement).modal('show');
+  }
+
+  addEmpleado() {
+    this.empleadoService.createEmpleados(this.addEmpleadoForm.value);
+    this.addEmpleadoForm.reset();
+
+  }
+
+  deleteEmpleado(empleado) {
+    this.empleadoService.removeEmpleados(empleado);
+  }
+
+  enableEditing(empleado) {
+    jQuery(this.myModalEdit.nativeElement).modal('show');
+    this.empleadotoEdit = empleado;
+  }
+
+  updateEmpleado(empleadotoEdit) {
+    this.empleadoService.updateEmpleados(empleadotoEdit);
+    jQuery(this.myModalEdit.nativeElement).modal('hide');
   }
 
 }

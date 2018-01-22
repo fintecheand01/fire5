@@ -1,34 +1,190 @@
-<div class="container-fluid">
-    <div>
-        <div class="container">
-            <p></p>
-            <div class="row ">
-                <div class="col-lg-9">
-                    <h5>
-                        <strong><i class="fa fa-heartbeat" aria-hidden="true"></i> Farmacia</strong>
-                    </h5>
-                </div>
-                <div class="col-lg-3">
-                    <div *ngIf="user">
-                        <a  (click)="signOut.emit()" href="#">
-                            <strong><i class="fa fa-sign-out" aria-hidden="true"></i> Sign out({{ nombrexz$ }})</strong>
-                        </a>
-                    </div>
-                </div>
+<p></p>
+<div class="container">
+    <div class="row ">
+        <div class="col-lg-9">
+            <h5>
+                <strong>
+                    <i class="fa fa-heartbeat" aria-hidden="true"></i> Farmacia</strong>
+            </h5>
+        </div>
+        <div class="col-lg-3">
+            <div *ngIf="auth.user$ | async">
+                <a (click)="auth.signOut()" href="#">
+                    <strong>
+                        <i class="fa fa-sign-out" aria-hidden="true"></i> Sign out({{ nombrexz$ }})</strong>
+                </a>
             </div>
         </div>
     </div>
     <p></p>
-    <hr>
-    <div class="row">
-        <div class="col-lg-2" *ngIf="user">
-            
+</div>
+<hr>
+
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-2 collapse d-md-flex bg-light pt-2 h-100" id="sidebar" *ngIf="auth.user$ | async">
+            <ul class="nav flex-column flex-nowrap">
+                <li class="nav-item" (click)="setActive('home')" class="active">
+                    <a [routerLinkActive]="[getActive('home')]" class="nav-link" [routerLink]="['/Home']">
+                        <i class="fa fa-home" aria-hidden="true"></i> Home
+                        <span class="sr-only">(current)</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                            <i class="fa fa-line-chart" aria-hidden="true"></i> Estadisticas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu1" data-toggle="collapse" data-target="#submenu1">
+                            <i class="fa fa-cogs" aria-hidden="true"></i> Mantenimiento</a>
+                    <div class="collapse" id="submenu1" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item" (click)="setActive('empresa')" class="active">
+                                <a [routerLinkActive]="[getActive('empresa')]"  [routerLink]="['/empresa']" class="nav-link p-1"><i class="fa fa-cog" aria-hidden="true"></i> General</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('sucursal')" class="active">
+                                <a [routerLinkActive]="[getActive('sucursal')]"  [routerLink]="['/sucursal']" class="nav-link p-1"><i class="fa fa-car" aria-hidden="true"></i> Sucursal</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('empleados')" class="active">
+                                <a [routerLinkActive]="[getActive('empleados')]"  [routerLink]="['/empleados']" class="nav-link p-1"><i class="fa fa-users" aria-hidden="true"></i> Empleados</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('usuarios')" class="active">
+                                <a [routerLinkActive]="[getActive('usuarios')]"  [routerLink]="['/usuarios']" class="nav-link p-1"><i class="fa fa-user-plus" aria-hidden="true"></i> Usuarios</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('documentos')" class="active">
+                                <a [routerLinkActive]="[getActive('documentos')]"  [routerLink]="['/documentos']" class="nav-link p-1"><i class="fa fa-file-text-o" aria-hidden="true"></i> Tipo Documento</a>
+                            </li>
+                            <li class="nav-item" [hidden]='true'>
+                                <a class="nav-link collapsed py-1" href="#submenu1sub1" data-toggle="collapse" data-target="#submenu1sub1">Customers</a>
+                                <div class="collapse" id="submenu1sub1" aria-expanded="false">
+                                    <ul class="flex-column nav pl-4">
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="">
+                                                <i class="fa fa-fw fa-clock-o"></i> Daily
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="">
+                                                <i class="fa fa-fw fa-dashboard"></i> Dashboard
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="">
+                                                <i class="fa fa-fw fa-bar-chart"></i> Charts
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link p-1" href="">
+                                                <i class="fa fa-fw fa-compass"></i> Areas
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu2" data-toggle="collapse" data-target="#submenu2">
+                        <i class="fa fa-database" aria-hidden="true"></i> Base Datos</a>
+                    <div class="collapse" id="submenu2" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item" (click)="setActive('medicamentos')" class="active">
+                                <a [routerLinkActive]="[getActive('medicamentos')]"  [routerLink]="['/medicamentos']" class="nav-link p-1">
+                                    <i class="fa fa-medkit" aria-hidden="true"></i> Medicamentos</a>
+                            </li>
+                            <li class="nav-item" (click)="setActive('categorias')" class="active">
+                                <a [routerLinkActive]="[getActive('categorias')]"  [routerLink]="['/categorias']" class="nav-link p-1">
+                                    <i class="fa fa-cubes" aria-hidden="true"></i> Categorias</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link p-1">
+                                    <i class="fa fa-flask" aria-hidden="true"></i> Unidades de Medida</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu3" data-toggle="collapse" data-target="#submenu3">
+                        <i class="fa fa-shopping-cart" aria-hidden="true"></i> Compras</a>
+                    <div class="collapse" id="submenu3" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-medkit" aria-hidden="true"></i> Ingresos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-shopping-basket" aria-hidden="true"></i> Proveedores</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu4" data-toggle="collapse" data-target="#submenu4">
+                        <i class="fa fa-credit-card-alt" aria-hidden="true"></i> Ventas</a>
+                    <div class="collapse" id="submenu4" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-fax" aria-hidden="true"></i> Realizar Ventas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-sitemap" aria-hidden="true"></i> Clientes</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu5" data-toggle="collapse" data-target="#submenu5">
+                        <i class="fa fa-hospital-o" aria-hidden="true"></i> Almacen</a>
+                    <div class="collapse" id="submenu5" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Medicamentos</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu6" data-toggle="collapse" data-target="#submenu6">
+                        <i class="fa fa-pie-chart" aria-hidden="true"></i> Consulta de Compras</a>
+                    <div class="collapse" id="submenu6" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Medicamentos</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#submenu7" data-toggle="collapse" data-target="#submenu7">
+                        <i class="fa fa-bar-chart" aria-hidden="true"></i> Consulta de Ventas</a>
+                    <div class="collapse" id="submenu7" aria-expanded="false">
+                        <ul class="flex-column nav pl-4">
+                            <li class="nav-item">
+                                <a class="nav-link p-1" href="">
+                                    <i class="fa fa-plus-square" aria-hidden="true"></i> Medicamentos</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item" [class.active]="empleadoLink.classList.contains('active')">
+                    <a #empleadoLink routerLinkActive="active" class="nav-link" [routerLink]="['/empleados']">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i> Acerca de ...</a>
+                </li>
+            </ul>
         </div>
-        <div class="col">
+        <div class="col pt-2">
+            <h2>
+                <a href="" data-target="#sidebar" data-toggle="collapse" class="d-md-none">
+                    <i class="fa fa-bars"></i>
+                </a>
+            </h2>
             <router-outlet></router-outlet>
         </div>
     </div>
 </div>
-
-
-

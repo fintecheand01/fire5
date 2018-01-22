@@ -37,9 +37,8 @@ export class InicioComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.uploads = this.upSvc.getUploads();
-    console.log(this.uploads);
-    this.uploads.subscribe(() => this.showSpinner = false);
+    // this.uploads = this.upSvc.getUploads();
+    // this.uploads.subscribe(() => this.showSpinner = false);
   }
 
   detectFiles(event) {

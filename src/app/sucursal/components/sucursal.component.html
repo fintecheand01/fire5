@@ -1,129 +1,175 @@
 <div class="container">
-  <div class="row">
-      <div class="col-md-9">
-          <h4>
-              <strong>
-                  <em>Sucursales</em>
-              </strong>
-          </h4>
-      </div>
-      <div class="col text-right" >
-          <a class="" (click)="showModal()">
-              <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
-          </a>
-      </div>
-  </div>
-  <hr>
-  <div class="card" *ngIf="sucursalService.sucursales$ | async; let sucursales;">
-      <div class="card-block">
-          <div class="card-header">
-              <strong> Sucursales ({{ sucursales.length }})</strong>
-              <h5 *ngIf="sucursales.length === 0">No existen sucursales almacenadas en DB. Agregue nueva Sucursal.</h5>
-          </div>
-  <div *ngIf="sucursales.length > 0">
-  <table id="example"  class="table table-bordered table-striped">
-    <thead class="thead">
-        <tr>
-            <th>#</th>
-            <th>Descripción</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tfoot class="thead">
-            <tr>
-                <th>#</th>
-                <th>Descripción</th>
-                <th>Actions</th>
-            </tr>
-    </tfoot>
-    <tbody>
-        <tr *ngFor="let sucursal of sucursales| paginate: { itemsPerPage: 8, currentPage: p }; let i = index">
-            <td>{{ i+1 }}</td>
-            <td>{{ sucursal.descripcion | uppercase}}</td>
-            <td> 
-                <button class="btn btn-sm btn-warning" (click)="enableEditing($event, sucursal)"><i class="fa fa-pencil"></i> Edit</button>
-                <button *ngIf="auth.canDelete(auth.user$ | async)" class="btn btn-sm btn-danger" (click)="deleteSucursal(sucursal)"><i class="fa fa-trash"></i> Delete</button>
-            </td>
-        </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="p = $event"></pagination-controls>
-  </div>
-          
-      </div>
-  </div>
+    <div class="row">
+        <div class="col-md-9">
+            <h4>
+                <strong>
+                    <em>Sucursales</em>
+                </strong>
+            </h4>
+        </div>
+        <div class="col text-right">
+            <a class="" (click)="showModal()">
+                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <hr>
+    <div class="card" *ngIf="sucursalService.sucursales$ | async; let sucursales;">
+        <div class="card-block">
+            <div class="card-header">
+                <strong> Sucursales ({{ sucursales.length }})</strong>
+                <h5 *ngIf="sucursales.length === 0">No existen sucursales almacenadas en DB. Agregue nueva Sucursal.</h5>
+            </div>
+            <div *ngIf="sucursales.length > 0">
+                <table id="example" class="table table-bordered table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>Descripción</th>
+                            <th>Telefono</th>
+                            <th>Celular</th>
+                            <th>Direccion</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let sucursal of sucursales| paginate: { itemsPerPage: 8, currentPage: p }; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ sucursal.razonSocial | uppercase}}</td>
+                            <td>{{ sucursal.telefono}}</td>
+                            <td>{{sucursal.celular}}</td>
+                            <td>{{sucursal.direccion | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" (click)="enableEditing(sucursal)">
+                                    <i class="fa fa-pencil"></i> Edit</button>
+                                <button  class="btn btn-sm btn-danger" (click)="deleteSucursal(sucursal)">
+                                    <i class="fa fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+
+        </div>
+    </div>
 </div>
 
 <div #myModal class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-          <form class="form" [formGroup]="addSucursalForm" (ngSubmit)="addSucursal()">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Sucursales</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-              </div>
-              <div class="modal-body">
-                <div class="container">
-                  <div class="row">
-                    <div class="col-md-9">
-                      <h4><strong><em>Agregar Sucursales</em></strong>
-                      </h4>
-                    </div>
-                  </div>
-                  <hr>
-                  <div class="row justify-content-start">
-                    <div class=" col-lg-7">
-                      <label for="nombres">Razón Social:</label>
-                      <input type="text" class="form-control text-uppercase" id="nombres" name="nombres" placeholder="Razón Social">
-                    </div>
-                    <div class=" col-lg-5">
-                      <label for="ruc">RUC.</label>
-                      <input type="text" class="form-control text-uppercase" id="ruc" name="ruc" placeholder="RUC">
-                    </div>
-                  </div>
-                  <p></p>
-                  <div class="row justify-content-start">
-                    <div class=" col-lg-7">
-                      <label for="direccion">Dirección:</label>
-                      <input type="text" class="form-control text-uppercase" id="direccion" name="direccion" placeholder="direccion">
-                    </div>
-                    <div class=" col-lg-5">
-                      <label for="correo">Correo:</label>
-                      <input type="text" class="form-control" id="correo" name="correo" placeholder="ejemplo@ejemplo.com">
-                    </div>
-                  </div>
-                  <p></p>
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form class="form" [formGroup]="addSucursalForm" (ngSubmit)="addSucursal()">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Sucursales</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button class="btn btn-primary" type="submit" [disabled]="!addSucursalForm.valid">Save </button>
-              </div>
-          </form>
-      </div>
-  </div>
+                <div class="modal-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <h4>
+                                    <strong>
+                                        <em>Agregar Sucursales</em>
+                                    </strong>
+                                </h4>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row justify-content-start">
+                            <div class=" col-lg-7">
+                                <label for="nombres">Razón Social:</label>
+                                <input type="text" class="form-control text-uppercase" id="nombres" formControlName="razonSocial" placeholder="Razón Social">
+                            </div>
+                            <div class=" col-lg-5">
+                                <label for="ruc">RUC.</label>
+                                <input type="text" class="form-control text-uppercase" id="ruc" formControlName="ruc" placeholder="RUC">
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row justify-content-start">
+                            <div class=" col-lg-7">
+                                <label for="direccion">Dirección:</label>
+                                <input type="text" class="form-control text-uppercase" id="direccion" formControlName="direccion" placeholder="direccion">
+                            </div>
+                            <div class=" col-lg-5">
+                                <label for="correo">Correo:</label>
+                                <input type="text" class="form-control" id="correo" formControlName="email" placeholder="ejemplo@ejemplo.com">
+                            </div>
+                        </div>
+                        <p></p>
+                        <div class="row justify-content-start">
+                            <div class=" col-lg-7">
+                                <label for="direccion">Telefono:</label>
+                                <input type="text" class="form-control text-uppercase" id="telefono" formControlName="telefono" placeholder="telefono">
+                            </div>
+                            <div class=" col-lg-5">
+                                <label for="correo">Celular:</label>
+                                <input type="text" class="form-control" id="celular" formControlName="celular" placeholder="celular">
+                            </div>
+                        </div>
+                        <p></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!addSucursalForm.valid">Save </button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-<!-- 
+
 <div #myModalEdit class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
       <div class="modal-content">
           <form class="form" (ngSubmit)="updateSucursal(sucursaltoEdit)">
               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Agregar Sucursals</h5>
+                  <h5 class="modal-title" id="exampleModalLabel">Editar Sucursales</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-              <div class="modal-body">
-                  <div class="row">
-                      <div class="col">
-                          <label for="nombre">Sucursal:</label>
-                          <input type="text" class="form-control text-uppercase" name="descripcion" [(ngModel)]="sucursaltoEdit.descripcion">
-                      </div>
-                  </div>
-              </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">Sucursal:</label>
+                        <input type="text" class="form-control text-uppercase" name="razonSocial"  [(ngModel)]="sucursaltoEdit.razonSocial">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">RUC:</label>
+                        <input type="text" class="form-control text-uppercase" name="ruc"  [(ngModel)]="sucursaltoEdit.ruc">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">Direccion:</label>
+                        <input type="text" class="form-control text-uppercase" name="direccion" [(ngModel)]="sucursaltoEdit.direccion">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">Correo:</label>
+                        <input type="text" class="form-control" name="email" [(ngModel)]="sucursaltoEdit.email">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">Telefono:</label>
+                        <input type="text" class="form-control text-uppercase" name="telefono" [(ngModel)]="sucursaltoEdit.telefono">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="nombre">Celuar:</label>
+                        <input type="text" class="form-control text-uppercase" name="celular" [(ngModel)]="sucursaltoEdit.celular">
+                    </div>
+                </div>
+            </div>
               <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                   <button class="btn btn-primary" type="submit" >Save changes</button>
@@ -131,4 +177,4 @@
           </form>
       </div>
   </div>
-</div> -->
+</div>

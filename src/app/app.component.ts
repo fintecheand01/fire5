@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+
+import { AuthService } from './auth';
 
 @Component({
   selector: 'app-root',
@@ -9,17 +11,22 @@ import 'rxjs/add/operator/map';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  currentChoice: String;
   private itemsCollection: AngularFirestoreCollection<any>;
   items: Observable<any[]>;
   title = 'app';
-  constructor(db: AngularFirestore) {
-    this.itemsCollection = db.collection('items');
-    this.items = this.itemsCollection.snapshotChanges().map(actions => {
-      return actions.map(a => {
-        const data = a.payload.doc.data();
-        data.id = a.payload.doc.id;
-        return data ;
-      });
-    });
+  constructor(db: AngularFirestore, public auth: AuthService) {
+    this.currentChoice = 'home';
+  }
+
+  setActive(choice: string): void {
+    this.currentChoice = choice;
+  }
+
+  getActive(choice: string): string {
+  if (this.currentChoice === choice) {
+         return 'active';
+    } else {
+         return 'not'; }
   }
 }

@@ -27,17 +27,31 @@ export class SucursalComponent implements OnInit {
   @ViewChild('myModal') myModal: ElementRef;
   @ViewChild('myModalEdit') myModalEdit: ElementRef;
   addSucursalForm: FormGroup;
-  descripcion = new FormControl('', [Validators.required]);
+  ruc = new FormControl('', [Validators.required]);
+  razonSocial = new FormControl('', [Validators.required]);
+  direccion = new FormControl('', [Validators.required]);
+  email = new FormControl('', [Validators.required]);
+  telefono = new FormControl('', [Validators.required]);
+  celular = new FormControl('', [Validators.required]);
+
+  sucursaltoEdit: any;
   constructor(
     public formBuilder: FormBuilder,
     public af: AngularFirestore,
     public http: Http,
     private sucursalService: SucursalService
-  ) { }
+  ) {
+    this.sucursaltoEdit = {};
+  }
 
   ngOnInit() {
     this.addSucursalForm = this.formBuilder.group({
-      descripcion: this.descripcion
+      ruc: this.ruc,
+      razonSocial: this.razonSocial,
+      direccion: this.direccion,
+      email: this.email,
+      telefono: this.telefono,
+      celular: this.celular,
     });
   }
 
@@ -45,4 +59,20 @@ export class SucursalComponent implements OnInit {
     jQuery(this.myModal.nativeElement).modal('show');
   }
 
+  addSucursal() {
+    this.sucursalService.createSucursales(this.addSucursalForm.value);
+    this.addSucursalForm.reset();
+  }
+
+  enableEditing(sucursal) {
+    jQuery(this.myModalEdit.nativeElement).modal('show');
+    this.sucursaltoEdit = sucursal;
+  }
+  updateSucursal(sucursaltoEdit) {
+    this.sucursalService.updateSucursales(sucursaltoEdit);
+    jQuery(this.myModalEdit.nativeElement).modal('hide');
+  }
+  deleteSucursal(sucursal) {
+    this.sucursalService.removeSucursales(sucursal);
+  }
 }

@@ -2,3 +2,17 @@ td {
   /* text-align: center; */
   vertical-align: middle;
 }
+
+body, html {
+  height: 100%;
+}
+
+#sidebar {
+  min-width: 130px;
+}
+.nav-link[data-toggle].collapsed:after {
+  content: "▾";
+}
+.nav-link[data-toggle]:not(.collapsed):after {
+  content: "▴";
+}

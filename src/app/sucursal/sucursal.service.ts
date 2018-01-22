@@ -43,12 +43,12 @@ export class SucursalService {
   }
 
   removeSucursales(sucursal: Sucursal) {
-    this.sucursalDoc = this.afs.doc(`sucursales/${sucursal.id}`);
+    this.sucursalDoc = this.afs.doc('sucursal/' + sucursal.id);
     return this.sucursalDoc.delete();
   }
 
   updateSucursales(sucursal: Sucursal) {
-    this.sucursalDoc = this.afs.doc(`sucursales/${sucursal.id}`);
+    this.sucursalDoc = this.afs.doc('sucursal/' + sucursal.id);
     return this.sucursalDoc.update(sucursal);
   }
 }

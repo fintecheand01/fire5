@@ -11,15 +11,19 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/observable/combineLatest';
 import * as firebase from 'firebase';
 import { Http } from '@angular/http';
-import { Upload } from './models/inicio';
+import { Upload, Empresa } from './models/empresa';
 
 
 
 @Injectable()
-export class InicioService {
+export class EmpresaService {
   uploadsCollection: AngularFirestoreCollection<any>;
   uploads$: Observable<any[]>;
   uploadDoc: AngularFirestoreDocument<Upload>;
+
+  empresaCollection: AngularFirestoreCollection<Empresa>;
+  empresa$: Observable<Empresa[]>;
+  empresaDoc: AngularFirestoreDocument<Empresa>;
 
 
   constructor(public afs: AngularFirestore, private http: Http) {
@@ -32,6 +36,15 @@ export class InicioService {
         return data;
       });
     });
+
+    this.empresaCollection = afs.collection<any>('empresa');
+    this.empresa$ = this.empresaCollection.snapshotChanges().map(changes => {
+      return changes.map( a => {
+        const data = a.payload.doc.data() as Empresa;
+        data.id = a.payload.doc.id;
+        return data;
+      });
+    });
   }
 
   getUploads() {
@@ -39,7 +52,11 @@ export class InicioService {
     return this.uploads$;
   }
 
-  pushUpload(upload: Upload) {
+  getEmpresa() {
+    return this.empresa$;
+  }
+
+  pushUpload(upload: Upload, empresa: Empresa) {
     const storageRef = firebase.storage().ref();
     const uploadTask = storageRef.child('upload/' + upload.file.name).put(upload.file);
     uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
@@ -55,17 +72,19 @@ export class InicioService {
         // upload success
         upload.url = uploadTask.snapshot.downloadURL;
         upload.name = upload.file.name;
-        this.saveFileData(upload);
+        this.saveFileData(upload, empresa);
       }
     );
   }
 
-  private saveFileData(upload) {
+  private saveFileData(upload, empresa) {
     const obj: any =  {};
     obj.name = upload.name;
     obj.progress = upload.progress;
     obj.url = upload.url;
+    empresa.logo = upload.url;
     this.uploadsCollection.add(obj);
+    this.empresaCollection.add(empresa);
   }
 
   deleteUpload(upload: any) {

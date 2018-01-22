@@ -1,0 +1,68 @@
+<div class="container" *ngIf="upSvc.empresa$ | async; let empresa;">
+    <div *ngIf="empresa.length === 0; else elseBlock">
+        <div class="row">
+            <div class="col-md-9">
+                <h4>
+                    <strong>
+                        <em>Configuración General</em>
+                    </strong>
+                </h4>
+            </div>
+        </div>
+        <hr>
+        <form class="form" [formGroup]="addEmpresaForm" (ngSubmit)="addEmpresa()">
+            <div class="row justify-content-start">
+                <div class=" col-lg-7">
+                    <label for="nombres">Nombre de la Empresa:</label>
+                    <input type="text" class="form-control text-uppercase" formControlName="nombre" name="nombre" placeholder="Farmacia">
+                </div>
+                <div class=" col-lg-5">
+                    <label for="nombres">Impuesto:</label>
+                    <input type="text" class="form-control text-uppercase" formControlName="impuesto" name="impuesto" placeholder="IVA">
+                </div>
+            </div>
+            <p></p>
+            <div class="row justify-content-start">
+                <div class=" col-lg-7">
+                    <label for="nombres">Porcentaje de Impuesto:</label>
+                    <input type="text" class="form-control text-uppercase" formControlName="porcentaje" name="porcentaje" placeholder="%">
+                </div>
+                <div class=" col-lg-5">
+                    <label for="nombres">Símbolo de la moneda:</label>
+                    <input type="text" class="form-control text-uppercase" formControlName="simbolo" name="simbolo" placeholder="S./">
+                </div>
+            </div>
+            <p>
+            </p>
+            <div class="row justify-content-start">
+                <div class=" col-lg-7">
+                    <label for="nombres">Logo:</label>
+                    <input type="file" (change)="detectFiles($event)" class="form-control text-uppercase" [(ngModel)]="imagen" [ngModelOptions]="{standalone: true}"
+                        id="imagen">
+                    <div *ngIf="currentUpload">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-animated" [ngStyle]="{ 'width': currentUpload?.progress + '%' }"></div>
+                        </div>
+                        Progress: {{currentUpload?.name}} | {{currentUpload?.progress}}% Complete
+                    </div>
+                    <!-- <div class="modal-footer">
+                                  <button class="btn btn-info" [disabled]="!selectedFiles" (click)="uploadSingle()">Guardar</button>
+                              </div> -->
+                </div>
+            </div>
+            <p></p>
+            <div class="modal-footer">
+                <button type="submit" [disabled]="!addEmpresaForm.valid" class="btn btn-success">Registrar</button>
+                <button type="button" class="btn btn-primary">Cancelar</button>
+            </div>
+        </form>
+    </div>
+    <ng-template #elseBlock>
+        <div class="row justify-content-lg-center" style="text-align: center">
+            <h5><em><strong>"{{empresa[0].nombre | uppercase}}"</strong></em></h5>
+        </div>
+        <div class="row justify-content-lg-center" style="text-align: center">
+                <img src={{empresa[0].logo}} height="200" width="200" />
+            </div>
+    </ng-template>
+</div>

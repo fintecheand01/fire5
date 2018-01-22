@@ -19,8 +19,13 @@ import { MedicamentoModule } from './medicamento';
 import { CompraModule } from './compra';
 import { ProveedorModule } from './proveedor';
 import { VentaModule } from './venta';
+import { EmpresaModule } from './empresa';
+import { CargoModule } from './cargo';
+import { DocumentoModule } from './documento';
 import { AngularFireDatabaseModule  } from 'angularfire2/database';
 import {NgxPaginationModule} from 'ngx-pagination';
+
+
 
 @NgModule({
   declarations: [
@@ -42,6 +47,9 @@ import {NgxPaginationModule} from 'ngx-pagination';
     CompraModule,
     ProveedorModule,
     VentaModule,
+    EmpresaModule,
+    CargoModule,
+    DocumentoModule,
     AngularFireDatabaseModule,
     AuthModule
   ],

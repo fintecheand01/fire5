@@ -1,0 +1,104 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <h4>
+                <strong>
+                    <em>Cargos</em>
+                </strong>
+            </h4>
+        </div>
+        <div class="col text-right" *ngIf="auth.canRead(auth.user$ | async)">
+            <a class="" (click)="showModal()">
+                <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+    <hr>
+      <div class="card" *ngIf="cargoService.cargos$ | async; let cargos;">
+            
+        <div class="card-block">
+
+            <div class="card-header">
+                <strong> Cargos ({{ cargos.length }})</strong>
+                <h5 *ngIf="cargos.length === 0">No existen cargos almacenadas en DB. Agregue nueva Cargo.</h5>
+            </div>
+            
+            <table *ngIf="cargos.length > 0" class="table table-bordered table-striped">
+                <thead class="thead">
+                    <tr>
+                        <th>#</th>
+                        <th>Descripción</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let cargo of cargos | paginate: { itemsPerPage: 8, currentPage: p } ; let i = index">
+                        <td>{{ i+1 }}</td>
+                        <td>{{ cargo.descripcion | uppercase}}</td>
+                        <td>
+                            <button class="btn btn-sm btn-warning" (click)="enableEditing(cargo)"><i class="fa fa-pencil"></i> Edit</button>
+                            <button class="btn btn-sm btn-danger" (click)="deleteCargo(cargo)"><i class="fa fa-trash"></i> Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+<div #myModal class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form" [formGroup]="addCargoForm" (ngSubmit)="addCargo()">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Cargos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombre">Cargo:</label>
+                            <input type="text" class="form-control text-uppercase" id="descripcion" name="descripcion" formControlName="descripcion">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit" [disabled]="!addCargoForm.valid">Save </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div #myModalEdit class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form class="form" (ngSubmit)="updateCargo(cargotoEdit)">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Agregar Cargos</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col">
+                            <label for="nombre">Cargo:</label>
+                            <input type="text" class="form-control text-uppercase" name="descripcion" [(ngModel)]="cargotoEdit.descripcion">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit" >Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
