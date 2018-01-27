@@ -1,2 +1,2 @@
 // tslint:disable-next-line:eofline
-export {  Medicamento } from './medicamento';
+export {  Medicamento , Upload} from './medicamento';

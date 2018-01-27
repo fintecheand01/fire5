@@ -1,0 +1,104 @@
+<div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h4>
+                    <strong>
+                        <em>Medidas</em>
+                    </strong>
+                </h4>
+            </div>
+            <div class="col text-right" *ngIf="auth.canRead(auth.user$ | async)">
+                <a class="" (click)="showModal()">
+                    <i class="fa fa-plus-circle fa-2x" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+        <hr>
+          <div class="card" *ngIf="medidaService.medidas$ | async; let medidas;">
+                
+            <div class="card-block">
+    
+                <div class="card-header">
+                    <strong> Medidas ({{ medidas.length }})</strong>
+                    <h5 *ngIf="medidas.length === 0">No existen medidas almacenadas en DB. Agregue nueva Medida.</h5>
+                </div>
+                
+                <table *ngIf="medidas.length > 0" class="table table-bordered table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th>#</th>
+                            <th>Descripción</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let medida of medidas | paginate: { itemsPerPage: 8, currentPage: p } ; let i = index">
+                            <td>{{ i+1 }}</td>
+                            <td>{{ medida.descripcion | uppercase}}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" (click)="enableEditing(medida)"><i class="fa fa-pencil"></i> Edit</button>
+                                <button class="btn btn-sm btn-danger" (click)="deleteMedida(medida)"><i class="fa fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    
+                </table>
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+    
+    <div #myModal class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form" [formGroup]="addMedidaForm" (ngSubmit)="addMedida()">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Medidas</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="nombre">Medida:</label>
+                                <input type="text" class="form-control text-uppercase" id="descripcion" name="descripcion" formControlName="descripcion">
+                            </div>
+                        </div>
+    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit" [disabled]="!addMedidaForm.valid">Save </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div #myModalEdit class="modal fade" id="myModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form class="form" (ngSubmit)="updateMedida(medidatoEdit)">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Agregar Medidas</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col">
+                                <label for="nombre">Medida:</label>
+                                <input type="text" class="form-control text-uppercase" name="descripcion" [(ngModel)]="medidatoEdit.descripcion">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" type="submit" >Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

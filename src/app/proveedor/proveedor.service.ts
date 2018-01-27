@@ -22,7 +22,7 @@ export class ProveedorService {
 
   constructor(public afs: AngularFirestore, private http: Http) {
 
-    this.proveedoresCollection = afs.collection<any>('proveedor');
+    this.proveedoresCollection = afs.collection<any>('proveedores');
     this.proveedores$ = this.proveedoresCollection.snapshotChanges().map(changes => {
       return changes.map( a => {
         const data = a.payload.doc.data() as Proveedor;

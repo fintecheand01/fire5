@@ -4,6 +4,9 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { environment } from '../../environments/environment';
+import { firebase } from './index';
+
+
 
 
 @NgModule({
@@ -13,4 +16,8 @@ import { environment } from '../../environments/environment';
     AngularFireModule.initializeApp(environment.firebase)
   ]
 })
+
 export class FirebaseModule { }
+
+
+

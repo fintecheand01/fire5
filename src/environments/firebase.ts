@@ -1,3 +1,4 @@
+
 export const firebaseConfig = {
     apiKey: 'AIzaSyDv-zlo7aFYPrLmnAjEqvwcFK6SX3Kvwa4',
     authDomain: 'dire5-f8a2b.firebaseapp.com',
@@ -6,3 +7,4 @@ export const firebaseConfig = {
     storageBucket: 'dire5-f8a2b.appspot.com',
     messagingSenderId: '627152042464'
   };
+

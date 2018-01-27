@@ -97,8 +97,8 @@
                                 <a [routerLinkActive]="[getActive('categorias')]"  [routerLink]="['/categorias']" class="nav-link p-1">
                                     <i class="fa fa-cubes" aria-hidden="true"></i> Categorias</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link p-1">
+                            <li class="nav-item" (click)="setActive('medidas')" class="active">
+                                <a [routerLinkActive]="[getActive('medidas')]"  [routerLink]="['/medidas']" class="nav-link p-1">
                                     <i class="fa fa-flask" aria-hidden="true"></i> Unidades de Medida</a>
                             </li>
                         </ul>
@@ -109,12 +109,12 @@
                         <i class="fa fa-shopping-cart" aria-hidden="true"></i> Compras</a>
                     <div class="collapse" id="submenu3" aria-expanded="false">
                         <ul class="flex-column nav pl-4">
-                            <li class="nav-item">
-                                <a class="nav-link p-1" href="">
+                            <li class="nav-item" (click)="setActive('compras')" class="active">
+                                <a [routerLinkActive]="[getActive('compras')]"  [routerLink]="['/compras']" class="nav-link p-1" >
                                     <i class="fa fa-medkit" aria-hidden="true"></i> Ingresos</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link p-1" href="">
+                            <li class="nav-item"  (click)="setActive('proveedores')" class="active">
+                                <a [routerLinkActive]="[getActive('proveedores')]"  [routerLink]="['/proveedores']" class="nav-link p-1">
                                     <i class="fa fa-shopping-basket" aria-hidden="true"></i> Proveedores</a>
                             </li>
                         </ul>
@@ -129,8 +129,8 @@
                                 <a class="nav-link p-1" href="">
                                     <i class="fa fa-fax" aria-hidden="true"></i> Realizar Ventas</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link p-1" href="">
+                            <li class="nav-item" (click)="setActive('clientes')" class="active">
+                                <a class="nav-link p-1" [routerLinkActive]="[getActive('clientes')]"  [routerLink]="['/clientes']">
                                     <i class="fa fa-sitemap" aria-hidden="true"></i> Clientes</a>
                             </li>
                         </ul>
@@ -188,3 +188,52 @@
         </div>
     </div>
 </div>
+<!-- <button class="btn btn-success" (click)="alerta()">Alerta</button>
+
+<h1>{{ (message | async)?.notification.title}}</h1> -->
+
+
+<!-- <div class="content">
+    <div class="columns">
+
+        <div class="column is-one-quarter"></div>
+
+    <div class="card">
+            <div class="card-image">
+              <figure class="image">
+                <img src="/assets/pagos.png" alt="Placeholder image">
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="media">
+                <div class="media-content">
+                  <p class="title is-4">Portable Pizza Pouch</p>
+                  <p class="subtitle is-6">holds your backup slice</p>
+                </div>
+              </div>
+          
+              <div class="content">
+                  Portable neck strap design for the Pizza Lover
+              </div>
+
+
+
+
+              <payment-request 
+                      [amount]="2300" 
+                      [label]="'Pizza Pouch'">
+                      
+              </payment-request>
+           
+            
+            
+            
+            
+            </div>
+          </div>
+
+<div class="column is-one-quarter"></div>
+
+</div>
+ -->
+

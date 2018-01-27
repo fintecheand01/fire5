@@ -11,7 +11,7 @@ import { ProveedorComponent } from './components/proveedor.component';
 
 export const ProveedorRoutesModule: ModuleWithProviders = RouterModule.forChild([
   {
-    path: 'proveedor',
+    path: 'proveedores',
     component: ProveedorComponent,
     // canActivate: [RequireAuthGuard]
   }

@@ -1,4 +1,3 @@
-
 export class Cargo {
     id?: string;
     descripcion: string;

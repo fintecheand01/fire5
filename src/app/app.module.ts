@@ -22,14 +22,20 @@ import { VentaModule } from './venta';
 import { EmpresaModule } from './empresa';
 import { CargoModule } from './cargo';
 import { DocumentoModule } from './documento';
+import { CategoriaModule } from './categoria';
+import { MedidaModule } from './medida';
+import { ClienteModule } from './cliente';
 import { AngularFireDatabaseModule  } from 'angularfire2/database';
 import {NgxPaginationModule} from 'ngx-pagination';
 
-
+import { MessagingService } from './messaging.service';
+import { PaymentRequestComponent } from './payment-request/payment-request.component';
+import { PaymentService } from './payment.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PaymentRequestComponent
   ],
   imports: [
     BrowserModule,
@@ -50,10 +56,13 @@ import {NgxPaginationModule} from 'ngx-pagination';
     EmpresaModule,
     CargoModule,
     DocumentoModule,
+    CategoriaModule,
+    MedidaModule,
+    ClienteModule,
     AngularFireDatabaseModule,
     AuthModule
   ],
-  providers: [],
+  providers: [MessagingService, PaymentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

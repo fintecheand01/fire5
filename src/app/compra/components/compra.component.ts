@@ -14,6 +14,7 @@ import { Observable } from 'rxjs/Observable';
 declare var jQuery: any;
 declare const $;
 
+
 @Component({
   selector: 'app-compra',
   templateUrl: './compra.component.html',
@@ -33,11 +34,15 @@ export class CompraComponent implements OnInit {
   public cargo = new FormControl('', [Validators.required]);
   public telefono = new FormControl('', [Validators.required]);
   public correo = new FormControl('', [Validators.required]);
+
+  itemList: any[];
   constructor(
     public formBuilder: FormBuilder,
     public compraService: CompraService,
     public sucursalService: SucursalService
-  ) {  }
+  ) { 
+    this.itemList = [{lastname: 'Pretell', middlename: 'Gary'},{lastname: 'Perez', middlename: 'Luis'}];
+   }
 
   ngOnInit() {
     this.addCompraForm = this.formBuilder.group({
@@ -56,6 +61,10 @@ export class CompraComponent implements OnInit {
 
   showModal() {
     jQuery(this.myModal.nativeElement).modal('show');
+  }
+
+  itemPush() {
+    this.itemList.push({});
   }
 
 

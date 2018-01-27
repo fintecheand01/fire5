@@ -81,7 +81,7 @@ export class AuthService {
 
   emailLogin(email: string, password: string) {
      return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-       .then((user) =>  this.updateAdminrData(user))
+       .then((user) =>  this.updateAdminData(user))
        .catch(error => console.log(error));
   }
 
@@ -98,7 +98,7 @@ export class AuthService {
     return userRef.set(data, { merge: true });
   }
 
-  private updateAdminrData(user) {
+  private updateAdminData(user) {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
     const data: User = {
