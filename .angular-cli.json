@@ -25,6 +25,7 @@
         "../node_modules/bootstrap/dist/css/bootstrap.css"
       ],
       "scripts": [
+        "../node_modules/plotly.js/dist/plotly.min.js",
         "../node_modules/jquery/dist/jquery.min.js",
         "../node_modules/tether/dist/js/tether.min.js",
         "../node_modules/popper.js/dist/umd/popper.js",

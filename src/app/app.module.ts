@@ -25,17 +25,22 @@ import { DocumentoModule } from './documento';
 import { CategoriaModule } from './categoria';
 import { MedidaModule } from './medida';
 import { ClienteModule } from './cliente';
+import { DolenciaModule } from './dolencia';
+import { ChartModule } from './cool-chart';
 import { AngularFireDatabaseModule  } from 'angularfire2/database';
 import {NgxPaginationModule} from 'ngx-pagination';
 
 import { MessagingService } from './messaging.service';
 import { PaymentRequestComponent } from './payment-request/payment-request.component';
 import { PaymentService } from './payment.service';
+import { MapBoxComponent } from './map-box/map-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PaymentRequestComponent
+    PaymentRequestComponent,
+    MapBoxComponent
+
   ],
   imports: [
     BrowserModule,
@@ -59,6 +64,8 @@ import { PaymentService } from './payment.service';
     CategoriaModule,
     MedidaModule,
     ClienteModule,
+    DolenciaModule,
+    ChartModule,
     AngularFireDatabaseModule,
     AuthModule
   ],
